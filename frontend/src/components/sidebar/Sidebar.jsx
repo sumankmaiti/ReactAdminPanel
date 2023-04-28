@@ -4,7 +4,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -44,7 +44,7 @@ const Sidebar = () => {
 					<span> Stats </span>
 				</li>
 				<li>
-					<NotificationsOutlinedIcon className='icon' />
+					<NotificationsActiveOutlinedIcon className='icon' />
 					<span> Notifications </span>
 				</li>
 				<p className='title'> SERVICE </p>
