@@ -27,7 +27,7 @@ const Chart = () => {
           width={730}
           height={250}
           data={data}
-          margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+          margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
         >
           <defs>
             <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
@@ -36,6 +36,7 @@ const Chart = () => {
             </linearGradient>
           </defs>
           <XAxis dataKey="name" stroke="gray" />
+		  {/* <YAxis /> */}
           <CartesianGrid strokeDasharray="3 3" className="grid" />
           <Tooltip />
           <Area
