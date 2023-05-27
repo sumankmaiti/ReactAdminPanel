@@ -1,0 +1,39 @@
+.new {
+    display: flex;
+    width: 100%;
+
+    .newContainer {
+        flex: 6;
+        
+        .top, .bottom {
+            box-shadow: 1px 5px 11px 2px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 1px 5px 11px 2px rgba(0,0,0,0.5);
+			-moz-box-shadow: 1px 5px 11px 2px rgba(0,0,0,0.5);
+			padding: 20px;
+			margin: 20px;
+            border-radius: 5px;
+            display: flex;
+
+            h1 {
+                color: gray;
+                font-size: 20px;
+            }
+
+            .left {
+                flex: 1;
+                text-align: center;
+
+                img {
+                    height: 100px;
+                    width: 100px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+
+            .right {
+                flex: 2;
+            }
+        }
+    }
+}
