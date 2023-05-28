@@ -3,20 +3,23 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "./new.scss";
+import { useState } from "react";
 
-const New = () => {
+const New = ({ input, title }) => {
+  const [file, setFile] = useState("")
+
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add New User</h1>
+          <h1>{title}</h1>
         </div>
         <div className="bottom">
           <div className="left">
             <img
-              src="https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg"
+              src= {file ? URL.createObjectURL(file) : "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg"}
               alt=""
             />
           </div>
@@ -26,10 +29,18 @@ const New = () => {
                 <label htmlFor="file">
                   Image: <UploadFileIcon className="icon" />
                 </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                <input onChange={e=>setFile(e.target.files[0])} type="file" id="file" style={{ display: "none" }} />
               </div>
 
-              <div className="formInput">
+              {input.map((item) => {
+                return (
+                  <div className="formInput" key={item.id}>
+                    <label>{item.label}</label>
+                    <input type={item.type} placeholder={item.placeholder} />
+                  </div>
+                );
+              })}
+              {/* <div className="formInput">
                 <label>Usename</label>
                 <input type="text" placeholder="suman_maiti" />
               </div>
@@ -45,6 +56,11 @@ const New = () => {
               </div>
 
               <div className="formInput">
+                <label>Phone</label>
+                <input type="text" placeholder="12345678" />
+              </div>
+
+              <div className="formInput">
                 <label>Password</label>
                 <input type="password" />
               </div>
@@ -57,7 +73,7 @@ const New = () => {
               <div className="formInput">
                 <label>Country</label>
                 <input type="text" placeholder="India" />
-              </div>
+              </div> */}
 
               <button>Send</button>
             </form>
