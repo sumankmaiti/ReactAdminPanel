@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login"
@@ -12,23 +12,27 @@ import { DarkModeContext } from './context/darkModeContext';
 
 function App() {
 	const {darkMode} = useContext(DarkModeContext)
+	const loggedIn = false
+	const RequiredAuth = ({children}) => {
+		return loggedIn ? children : <Navigate to='/login'/>
+	}
 
   return (
     <div className= {darkMode ? "app dark" : "app"}>
 		<BrowserRouter>
 			<Routes>
 				<Route path='/'>
-					<Route index element={<Home />} />
 					<Route path='login' element={<Login />} />
+					<Route index element={<RequiredAuth> <Home /> </RequiredAuth>} />
 					<Route path='users'>
-						<Route index element={< List />} />
-						<Route path=':userid' element={<Single />} />	
-						<Route path='new' element={<New input={userInputs} title='Add new User' />} />
+						<Route index element={<RequiredAuth> < List /> </RequiredAuth>} />
+						<Route path=':userid' element={<RequiredAuth> <Single /> </RequiredAuth>} />	
+						<Route path='new' element={<RequiredAuth><New input={userInputs} title='Add new User' /></RequiredAuth>} />
 					</Route>
 					<Route path='products'>
-						<Route index element={< List />} />
-						<Route path=':productid' element={<Single />} />	
-						<Route path='new' element={<New input={productInputs} title='Add new Product' />} />
+						<Route index element={<RequiredAuth>< List /></RequiredAuth>} />
+						<Route path=':productid' element={<RequiredAuth><Single /></RequiredAuth>} />	
+						<Route path='new' element={<RequiredAuth><New input={productInputs} title='Add new Product' /></RequiredAuth>} />
 					</Route>
 				</Route>
 			</Routes>
