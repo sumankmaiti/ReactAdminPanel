@@ -9,12 +9,15 @@ import { productInputs, userInputs } from './formSource';
 import './styles/dark.scss'
 import { useContext } from 'react';
 import { DarkModeContext } from './context/darkModeContext';
+import { AuthContext } from './context/authContext';
 
 function App() {
 	const {darkMode} = useContext(DarkModeContext)
-	const loggedIn = false
+	const {currentUser} = useContext(AuthContext)
+	console.log(currentUser);
+
 	const RequiredAuth = ({children}) => {
-		return loggedIn ? children : <Navigate to='/login'/>
+		return currentUser ? children : <Navigate to='/login'/>
 	}
 
   return (

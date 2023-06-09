@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import './login.scss'
 import { auth } from '../../firebase';
 import {useNavigate} from 'react-router-dom'
+import { AuthContext } from '../../context/authContext';
 
 const Login = () => {
 	const [error, setError] = useState("")
@@ -10,23 +11,23 @@ const Login = () => {
 	const [password, setPassword] = useState("")
 
 	const navigate = useNavigate()
+	const {dispatch} = useContext(AuthContext)
 
 	const loginHandler = (e) => {
 		e.preventDefault()
 
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
-				// Signed in 
+				// Signed in
 				const user = userCredential.user;
-				navigate('/')
+				dispatch({type: "LOGIN", payload: user})
+				navigate("/")
 				// ...
 				setError("")
-				console.log(user);
 			})
 			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				setError(errorMessage)
+				// const errorMessage = error.message;
+				setError("Invalid Usename or Password.")
 			});
 	}
 
