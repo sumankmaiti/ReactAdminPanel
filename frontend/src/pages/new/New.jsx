@@ -1,12 +1,38 @@
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"; 
 
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "./new.scss";
-import { useState } from "react";
+import { db } from "../../firebase";
 
 const New = ({ input, title }) => {
   const [file, setFile] = useState("")
+  const [data, setData] = useState({})
+
+  const handleData = (e) => {
+	const id = e.target.id
+	const value = e.target.value
+	setData({...data, [id]: value})
+  }
+
+  const handleAdd = async (e) => {
+	e.preventDefault()
+	try {
+		const res = await addDoc(collection(db, "cities"), {
+			name: "Los Angeles",
+			state: "CA",
+			country: "USA",
+			timeStamp: serverTimestamp()
+		  }); 
+		console.log(res.id);
+	}
+	catch(err) {
+		console.log(err);
+	}
+	
+  }
 
   return (
     <div className="new">
@@ -24,7 +50,7 @@ const New = ({ input, title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleAdd}>
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <UploadFileIcon className="icon" />
@@ -36,10 +62,11 @@ const New = ({ input, title }) => {
                 return (
                   <div className="formInput" key={item.id}>
                     <label>{item.label}</label>
-                    <input type={item.type} placeholder={item.placeholder} />
+                    <input type={item.type} placeholder={item.placeholder} onChange={handleData} />
                   </div>
                 );
               })}
+			  <button type="submit">Send</button>
               {/* <div className="formInput">
                 <label>Usename</label>
                 <input type="text" placeholder="suman_maiti" />
@@ -75,7 +102,7 @@ const New = ({ input, title }) => {
                 <input type="text" placeholder="India" />
               </div> */}
 
-              <button>Send</button>
+              {/* <button>Send</button> */}
             </form>
           </div>
         </div>
