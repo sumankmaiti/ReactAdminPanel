@@ -12,38 +12,47 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const New = ({ input, title }) => {
 	const [file, setFile] = useState("")
 	const [data, setData] = useState({})
+	const [disable, setDisable] = useState(true)
 
 	useEffect(() => {
-		const name = new Date().getTime() + file.name
-		const spaceRef = ref(storage, name);
-		const uploadTask = uploadBytesResumable(spaceRef, file);
+		const uploadFile = () => {
+			const name = new Date().getTime() + file.name
+			const spaceRef = ref(storage, name);
+			const uploadTask = uploadBytesResumable(spaceRef, file);
 
-		uploadTask.on('state_changed',
-			(snapshot) => {
-				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-				console.log('Upload is ' + progress + '% done');
-				switch (snapshot.state) {
-					case 'paused':
-						console.log('Upload is paused');
-						break;
-					case 'running':
-						console.log('Upload is running');
-						break;
-					default:
-						break
+			uploadTask.on('state_changed',
+				(snapshot) => {
+					const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+					console.log('Upload is ' + progress + '% done');
+					switch (snapshot.state) {
+						case 'paused':
+							console.log('Upload is paused');
+							break;
+						case 'running':
+							console.log('Upload is running');
+							break;
+						default:
+							break
+					}
+				},
+				(error) => {
+					console.log(error);
+				},
+				() => {
+					getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+						setData((prev) => ({ ...prev, img: downloadURL }))
+						setDisable(false)
+					});
 				}
-			},
-			(error) => {
-				console.log(error);
-			},
-			() => {
-				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					setData((prev) => ({...prev, img: downloadURL}))
-				});
-			}
-		);
+			);
+		}
+
+		file && uploadFile()
+
 	}, [file])
 
+	console.log(data);
+	
 	const handleData = (e) => {
 		const id = e.target.id
 		const value = e.target.value
@@ -89,7 +98,9 @@ const New = ({ input, title }) => {
 								<label htmlFor="file">
 									Image: <UploadFileIcon className="icon" />
 								</label>
-								<input onChange={e => setFile(e.target.files[0])} type="file" id="file" style={{ display: "none" }} />
+								<input onChange={e => {
+									setFile(e.target.files[0])
+									setDisable(true)}} type="file" id="file" style={{ display: "none" }} />
 							</div>
 
 							{input.map((item) => {
@@ -100,7 +111,7 @@ const New = ({ input, title }) => {
 									</div>
 								);
 							})}
-							<button type="submit">Send</button>
+							<button disabled={disable} type="submit">Send</button>
 						</form>
 					</div>
 				</div>
