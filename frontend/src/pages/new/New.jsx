@@ -8,11 +8,13 @@ import Navbar from "../../components/navbar/Navbar";
 import "./new.scss";
 import { db, auth, storage } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const New = ({ input, title }) => {
 	const [file, setFile] = useState("")
 	const [data, setData] = useState({})
 	const [disable, setDisable] = useState(true)
+	const nevigate = useNavigate()
 
 	useEffect(() => {
 		const uploadFile = () => {
@@ -70,6 +72,7 @@ const New = ({ input, title }) => {
 				...data,
 				timeStamp: serverTimestamp()
 			});
+			nevigate(-1)
 		}
 		catch (err) {
 			console.log(err);
